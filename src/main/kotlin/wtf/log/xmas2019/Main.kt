@@ -15,6 +15,7 @@ import wtf.log.xmas2019.day.day04.Day04
 import wtf.log.xmas2019.day.day05.Day05
 import wtf.log.xmas2019.day.day06.Day06
 import wtf.log.xmas2019.day.day07.Day07
+import wtf.log.xmas2019.day.day08.Day08
 import wtf.log.xmas2019.util.time.toPrettyFormat
 import java.io.File
 import java.time.Duration
@@ -28,7 +29,8 @@ private val DAYS = listOf<Day<*, *, *>?>(
     Day04,
     Day05,
     Day06,
-    Day07
+    Day07,
+    Day08
 )
 
 private object ProgramArguments {
@@ -83,9 +85,17 @@ private object Spinner {
         } finally {
             job.cancel()
         }
-        print("\r-> $title")
+        val prefix = "\r-> $title"
+        print(prefix)
         if (printReturnValue) {
-            print(": $result")
+            val indentSize = prefix.length + 1
+            val indent = buildString(indentSize) {
+                append('\n')
+                repeat(indentSize) { append(' ') }
+            }
+            val lineSequence = result.toString().lineSequence()
+            val resultString = lineSequence.joinToString(indent)
+            print(": $resultString")
         }
         println(" (${duration.toPrettyFormat()})")
         result
